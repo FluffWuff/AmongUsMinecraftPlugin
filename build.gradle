@@ -1,0 +1,40 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.5.0'
+}
+
+def major = 0, minor = 0, patch = 1, type = "SNAPSHOT"
+
+group "de.richtigeralex.amongus"
+version "$major.$minor.$patch-$type"
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+ext {
+    coords_spigot = "org.spigotmc:spigot-api:1.17-R0.1-SNAPSHOT"
+}
+
+dependencies {
+    compileOnly("org.jetbrains.kotlin:kotlin-stdlib")
+    compileOnly("org.jetbrains.kotlin:kotlin-serialization")
+    compileOnly("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.8")
+    compileOnly(coords_spigot)
+}
+
+
+jar.doFirst {
+    manifest {
+        attributes "Implementation-Title": project.name
+        attributes "Implementation-Version": version
+        attributes "Specification-Version": version
+        attributes "Implementation-Vendor": "RichtigerAlex"
+        attributes "Built-By": System.getProperty("user.name")
+        attributes "Build-Jdk": System.getProperty("java.version")
+        attributes "Created-By": "Gradle " + gradle.gradleVersion
+    }
+}
+
+compileJava {
+    options.encoding = "UTF-8"
+}
