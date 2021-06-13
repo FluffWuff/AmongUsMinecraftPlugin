@@ -10,7 +10,21 @@ class AmongUsPlayerManager(val colorManager: ColorManager) {
     val spectators: MutableList<Player> = mutableListOf()
 
     fun convertToInGameState() {
-        TODO("Write random pick generator for Imposter/Crewmate with variety at playercount")
+        if (lobbyPlayers.size <= 7) {
+            val imposter = lobbyPlayers.random()
+            inGamePlayers.add(imposter.toImposter())
+            lobbyPlayers.remove(imposter)
+        } else {
+            val imposter = lobbyPlayers.take(2)
+            imposter.forEach {
+                inGamePlayers.add(it.toImposter())
+                lobbyPlayers.remove(it)
+            }
+        }
+        lobbyPlayers.forEach {
+            inGamePlayers.add(it.toCrewMate())
+        }
+        lobbyPlayers.clear()
     }
 
     fun convertToLobbyState() {
@@ -20,6 +34,8 @@ class AmongUsPlayerManager(val colorManager: ColorManager) {
         spectators.forEach {
             lobbyPlayers.add(LobbyPlayer(colorManager.selectRandomAvailableColor(), it))
         }
+        inGamePlayers.clear()
+        spectators.clear()
     }
 
 }
