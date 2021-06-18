@@ -4,9 +4,10 @@ import de.richtigeralex.amongus.gamestate.GameState
 import de.richtigeralex.amongus.gamestate.GameStateManager
 import de.richtigeralex.amongus.player.AmongUsPlayerManager
 import de.richtigeralex.amongus.player.color.ColorManager
+import org.bukkit.NamespacedKey
 import org.bukkit.plugin.java.JavaPlugin
 
-class AmongUs : JavaPlugin() {
+object AmongUs : JavaPlugin() {
 
     override fun onEnable() {
         val gameStateManager = GameStateManager(this)
@@ -15,6 +16,5 @@ class AmongUs : JavaPlugin() {
         val colorManager = ColorManager()
         val playerManager = AmongUsPlayerManager(colorManager)
     }
-
 
 }
