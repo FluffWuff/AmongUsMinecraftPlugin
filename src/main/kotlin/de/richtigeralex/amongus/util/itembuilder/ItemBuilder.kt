@@ -64,7 +64,7 @@ data class ItemBuilder(
     val amount: Int = 1,
     val displayName: String = "",
     val color: Color? = null,
-    val itemFlags: List<ItemFlag> = mutableListOf(),
+    val itemFlags: List<ItemFlag> = mutableListOf(ItemFlag.HIDE_UNBREAKABLE),
     val enchantments: MutableMap<Enchantment, Int> = mutableMapOf(),
     val isUnbreakable: Boolean = true,
     val lore: List<String> = mutableListOf(),

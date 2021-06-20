@@ -1,6 +1,7 @@
 package de.richtigeralex.amongus.player.color
 
 import org.bukkit.Color
+import org.bukkit.Material
 
 object ColorManager {
 

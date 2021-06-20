@@ -24,10 +24,10 @@ ext {
 }
 
 dependencies {
-    compileOnly("org.jetbrains.kotlin:kotlin-stdlib")
-    compileOnly("org.jetbrains.kotlin:kotlin-serialization")
-    compileOnly("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.8")
-    compileOnly(coords_spigot)
+    implementation("org.jetbrains.kotlin:kotlin-stdlib")
+    implementation("org.jetbrains.kotlin:kotlin-serialization")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.8")
+    runtimeOnly(coords_spigot)
 }
 
 
