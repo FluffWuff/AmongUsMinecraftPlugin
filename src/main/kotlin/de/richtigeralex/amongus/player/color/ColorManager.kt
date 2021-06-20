@@ -2,15 +2,10 @@ package de.richtigeralex.amongus.player.color
 
 import org.bukkit.Color
 
-class ColorManager {
+object ColorManager {
 
-    val availableColors: MutableList<Color>
-    val usedColors: MutableList<Color>
-
-    init {
-        availableColors = arrayListOf()
-        usedColors = availableColors
-    }
+    val availableColors: MutableList<Color> = mutableListOf(Color.RED, Color.BLUE, Color.GREEN, Color.FUCHSIA, Color.ORANGE, Color.YELLOW, Color.BLACK, Color.WHITE, Color.PURPLE, Color.GRAY, Color.AQUA, Color.LIME)
+    val usedColors: MutableList<Color> = mutableListOf()
 
     fun selectColor(newColor: Color, oldColor: Color) {
         availableColors.remove(newColor)
@@ -20,8 +15,19 @@ class ColorManager {
         usedColors.add(newColor)
     }
 
+    /**
+     * ONLY USE THIS IF A PLAYER LEAVES
+     */
+    fun unselectColor(color: Color) {
+        usedColors.remove(color)
+        availableColors.add(color)
+    }
+
     fun selectRandomAvailableColor(): Color {
-        return availableColors.random()
+        val color: Color = availableColors.random()
+        availableColors.remove(color)
+        usedColors.add(color)
+        return color
     }
 
 }

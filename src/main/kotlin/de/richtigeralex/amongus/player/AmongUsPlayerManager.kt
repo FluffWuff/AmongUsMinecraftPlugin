@@ -1,9 +1,10 @@
 package de.richtigeralex.amongus.player
 
+
 import de.richtigeralex.amongus.player.color.ColorManager
 import org.bukkit.entity.Player
 
-class AmongUsPlayerManager(val colorManager: ColorManager) {
+class AmongUsPlayerManager {
 
     val lobbyPlayers: MutableList<LobbyPlayer> = mutableListOf()
     val inGamePlayers: MutableList<AmongUsPlayer> = mutableListOf()
@@ -32,7 +33,7 @@ class AmongUsPlayerManager(val colorManager: ColorManager) {
             lobbyPlayers.add(it.toLobbyPlayer())
         }
         spectators.forEach {
-            lobbyPlayers.add(LobbyPlayer(colorManager.selectRandomAvailableColor(), it))
+            lobbyPlayers.add(LobbyPlayer(ColorManager.selectRandomAvailableColor(), it))
         }
         inGamePlayers.clear()
         spectators.clear()

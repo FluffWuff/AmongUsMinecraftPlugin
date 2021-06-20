@@ -1,6 +1,14 @@
+buildscript {
+    dependencies {
+        classpath("com.github.jengelman.gradle.plugins:shadow:5.2.0")
+    }
+}
+
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.5.0'
 }
+
+apply plugin: "com.github.johnrengelman.shadow"
 
 def major = 0, minor = 0, patch = 1, type = "SNAPSHOT"
 
@@ -23,16 +31,57 @@ dependencies {
 }
 
 
-jar.doFirst {
-    manifest {
-        attributes "Implementation-Title": project.name
-        attributes "Implementation-Version": version
-        attributes "Specification-Version": version
-        attributes "Implementation-Vendor": "RichtigerAlex"
-        attributes "Built-By": System.getProperty("user.name")
-        attributes "Build-Jdk": System.getProperty("java.version")
-        attributes "Created-By": "Gradle " + gradle.gradleVersion
+build.dependsOn shadowJar
+
+jar {
+    from { configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    doFirst {
+        manifest{
+            attributes "Implementation-Ttile": project.name
+            attributes "Implementation-Version": findProperty("version").toString()
+            attributes "Specification-Version": findProperty("version").toString()
+            attributes "Implementation-Vendor": "RichtigerAlex"
+            attributes "Built-By": System.getProperty("user.name")
+            attributes "Build-Jdk": System.getProperty("java.version")
+            attributes "Created-By": "Gradle $gradle.gradleVersion"
+        }
     }
+}
+
+shadowJar {
+    from { configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    exclude("META-INF/**")
+    doFirst {
+        manifest{
+            attributes "Implementation-Ttile": project.name
+            attributes "Implementation-Version": findProperty("version").toString()
+            attributes "Specification-Version": findProperty("version").toString()
+            attributes "Implementation-Vendor": "RichtigerAlex"
+            attributes "Built-By": System.getProperty("user.name")
+            attributes "Build-Jdk": System.getProperty("java.version")
+            attributes "Created-By": "Gradle $gradle.gradleVersion"
+        }
+    }
+
+}
+
+kotlinSourcesJar {
+    from { configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    doFirst {
+        manifest{
+            attributes "Implementation-Ttile": project.name
+            attributes "Implementation-Version": findProperty("version").toString()
+            attributes "Specification-Version": findProperty("version").toString()
+            attributes "Implementation-Vendor": "RichtigerAlex"
+            attributes "Built-By": System.getProperty("user.name")
+            attributes "Build-Jdk": System.getProperty("java.version")
+            attributes "Created-By": "Gradle $gradle.gradleVersion"
+        }
+    }
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "16"
 }
 
 compileJava {
