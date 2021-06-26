@@ -2,6 +2,7 @@ package de.richtigeralex.amongus
 
 import de.richtigeralex.amongus.gamestate.GameState
 import de.richtigeralex.amongus.gamestate.GameStateManager
+import de.richtigeralex.amongus.listener.CancelUselessListener
 import de.richtigeralex.amongus.listener.PlayerHandleListener
 import de.richtigeralex.amongus.player.AmongUsPlayerManager
 import de.richtigeralex.amongus.util.itembuilder.ItemBuilderManager
@@ -20,14 +21,14 @@ class AmongUs : JavaPlugin() {
     }
 
     override fun onEnable() {
-        println("1")
         val gameStateManager = GameStateManager(this)
         gameStateManager.setGameState(GameState.LOBBY_STATE)
-        println("2")
+
         val playerManager = AmongUsPlayerManager()
+
         Bukkit.getPluginManager().registerEvents(PlayerHandleListener(gameStateManager, playerManager), this)
         Bukkit.getPluginManager().registerEvents(ItemBuilderManager.ItemBuilderListener(), this)
-        println("3")
+        Bukkit.getPluginManager().registerEvents(CancelUselessListener(), this)
     }
 
 }

@@ -1,4 +1,6 @@
 rootProject.name = 'AmongUsMinecraft'
 include 'Plugin'
 include 'SpigotPlugins'
+include 'AmongUsMinecraft-API'
+include 'AmongsUsMinecraft-Core'
 
