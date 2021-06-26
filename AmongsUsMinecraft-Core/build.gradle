@@ -1,0 +1,3 @@
+dependencies {
+    compileOnly(findProperty("coords_spigot").toString())
+}

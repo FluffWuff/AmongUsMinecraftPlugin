@@ -1,89 +1,117 @@
 buildscript {
+    repositories {
+        mavenCentral()
+        mavenLocal()
+    }
+
     dependencies {
-        classpath("com.github.jengelman.gradle.plugins:shadow:5.2.0")
+        classpath("com.github.jengelman.gradle.plugins:shadow:6.1.0")
     }
 }
 
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.5.0'
+    id 'org.jetbrains.kotlin.jvm' version '1.5.20'
+    id 'com.github.johnrengelman.shadow' version '6.1.0'
 }
-
-apply plugin: "com.github.johnrengelman.shadow"
-
-def major = 0, minor = 0, patch = 1, type = "SNAPSHOT"
-
-group "de.richtigeralex.amongus"
-version "$major.$minor.$patch-$type"
-
-repositories {
-    mavenCentral()
-    mavenLocal()
-}
-ext {
-    coords_spigot = "org.spigotmc:spigot-api:1.17-R0.1-SNAPSHOT"
-}
-
-dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib")
-    implementation("org.jetbrains.kotlin:kotlin-serialization")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.8")
-    runtimeOnly(coords_spigot)
-}
-
 
 build.dependsOn shadowJar
 
-jar {
-    from { configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
-    doFirst {
-        manifest{
-            attributes "Implementation-Ttile": project.name
-            attributes "Implementation-Version": findProperty("version").toString()
-            attributes "Specification-Version": findProperty("version").toString()
-            attributes "Implementation-Vendor": "RichtigerAlex"
-            attributes "Built-By": System.getProperty("user.name")
-            attributes "Build-Jdk": System.getProperty("java.version")
-            attributes "Created-By": "Gradle $gradle.gradleVersion"
+allprojects {
+    this.group = findProperty("group").toString()
+    this.version = findProperty("version").toString()
+}
+
+subprojects {
+    apply plugin: "org.jetbrains.kotlin.jvm"
+    apply plugin: "com.github.johnrengelman.shadow"
+
+    repositories {
+        mavenCentral()
+        mavenLocal()
+    }
+
+    dependencies {
+        implementation("org.jetbrains.kotlin:kotlin-stdlib")
+        implementation("org.jetbrains.kotlin:kotlin-serialization")
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3")
+    }
+
+    tasks {
+        jar {
+            archiveFileName.set("${project.name}.jar")
+            doFirst {
+                manifest{
+                    attributes "Implementation-Ttile": project.name
+                    attributes "Implementation-Version": findProperty("version").toString()
+                    attributes "Specification-Version": findProperty("version").toString()
+                    attributes "Implementation-Vendor": "RichtigerAlex"
+                    attributes "Built-By": System.getProperty("user.name")
+                    attributes "Build-Jdk": System.getProperty("java.version")
+                    attributes "Created-By": "Gradle $gradle.gradleVersion"
+                }
+            }
+            if(project.name != "AmongsUsMinecraft-Core") {
+                dependsOn(":AmongsUsMinecraft-Core")
+                def buildDir = project(":AmongsUsMinecraft-Core").buildDir.path
+                from("$buildDir/classes/kotlin/main") {
+                    include("**")
+                }
+                from("$buildDir/resources/main") {
+                    include("**")
+                }
+            }
+        }
+
+        shadowJar {
+            archiveFileName.set("${project.name}-shadow.jar")
+            exclude("META-INF/**")
+            doFirst {
+                manifest{
+                    attributes "Implementation-Ttile": project.name
+                    attributes "Implementation-Version": findProperty("version").toString()
+                    attributes "Specification-Version": findProperty("version").toString()
+                    attributes "Implementation-Vendor": "RichtigerAlex"
+                    attributes "Built-By": System.getProperty("user.name")
+                    attributes "Build-Jdk": System.getProperty("java.version")
+                    attributes "Created-By": "Gradle $gradle.gradleVersion"
+                }
+            }
+            if(project.name != "AmongsUsMinecraft-Core") {
+                dependsOn(":AmongsUsMinecraft-Core")
+                def buildDir = project(":AmongsUsMinecraft-Core").buildDir.path
+                from("$buildDir/classes/kotlin/main") {
+                    include("**")
+                }
+                from("$buildDir/resources/main") {
+                    include("**")
+                }
+            }
+        }
+
+        kotlinSourcesJar {
+            archiveFileName.set("${project.name}-kotlinSources.jar")
+            doFirst {
+                manifest{
+                    attributes "Implementation-Ttile": project.name
+                    attributes "Implementation-Version": findProperty("version").toString()
+                    attributes "Specification-Version": findProperty("version").toString()
+                    attributes "Implementation-Vendor": "RichtigerAlex"
+                    attributes "Built-By": System.getProperty("user.name")
+                    attributes "Build-Jdk": System.getProperty("java.version")
+                    attributes "Created-By": "Gradle $gradle.gradleVersion"
+                }
+            }
+        }
+
+        compileKotlin {
+            kotlinOptions.jvmTarget = "16"
+        }
+
+        compileJava {
+            options.encoding = "UTF-8"
         }
     }
 }
 
-shadowJar {
-    from { configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
-    exclude("META-INF/**")
-    doFirst {
-        manifest{
-            attributes "Implementation-Ttile": project.name
-            attributes "Implementation-Version": findProperty("version").toString()
-            attributes "Specification-Version": findProperty("version").toString()
-            attributes "Implementation-Vendor": "RichtigerAlex"
-            attributes "Built-By": System.getProperty("user.name")
-            attributes "Build-Jdk": System.getProperty("java.version")
-            attributes "Created-By": "Gradle $gradle.gradleVersion"
-        }
-    }
 
-}
 
-kotlinSourcesJar {
-    from { configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
-    doFirst {
-        manifest{
-            attributes "Implementation-Ttile": project.name
-            attributes "Implementation-Version": findProperty("version").toString()
-            attributes "Specification-Version": findProperty("version").toString()
-            attributes "Implementation-Vendor": "RichtigerAlex"
-            attributes "Built-By": System.getProperty("user.name")
-            attributes "Build-Jdk": System.getProperty("java.version")
-            attributes "Created-By": "Gradle $gradle.gradleVersion"
-        }
-    }
-}
-
-compileKotlin {
-    kotlinOptions.jvmTarget = "16"
-}
-
-compileJava {
-    options.encoding = "UTF-8"
-}
