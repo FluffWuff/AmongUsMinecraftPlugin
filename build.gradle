@@ -14,9 +14,13 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '6.1.0'
 }
 
-build.dependsOn shadowJar
 
 allprojects {
+    repositories {
+        mavenCentral()
+        mavenLocal()
+    }
+
     this.group = findProperty("group").toString()
     this.version = findProperty("version").toString()
 }
@@ -26,8 +30,7 @@ subprojects {
     apply plugin: "com.github.johnrengelman.shadow"
 
     repositories {
-        mavenCentral()
-        mavenLocal()
+        maven { url "https://repo.dmulloy2.net/repository/public/" }
     }
 
     dependencies {
@@ -37,10 +40,12 @@ subprojects {
     }
 
     tasks {
+        build.dependsOn shadowJar
+
         jar {
             archiveFileName.set("${project.name}.jar")
             doFirst {
-                manifest{
+                manifest {
                     attributes "Implementation-Ttile": project.name
                     attributes "Implementation-Version": findProperty("version").toString()
                     attributes "Specification-Version": findProperty("version").toString()
@@ -50,9 +55,12 @@ subprojects {
                     attributes "Created-By": "Gradle $gradle.gradleVersion"
                 }
             }
-            if(project.name != "AmongsUsMinecraft-Core") {
-                dependsOn(":AmongsUsMinecraft-Core")
-                def buildDir = project(":AmongsUsMinecraft-Core").buildDir.path
+           //def buildDir = project(":AmongsUsMinecraft-Plugin").buildDir.path
+           //from("$buildDir/classes/kotlin/main") include("**")
+           //from("$buildDir/resources/main") include("**")
+            if (project.name != "AmongsUsMinecraft-Plugin") {
+                dependsOn(":AmongsUsMinecraft-Plugin")
+                def buildDir = project(":AmongsUsMinecraft-Plugin").buildDir.path
                 from("$buildDir/classes/kotlin/main") {
                     include("**")
                 }
@@ -66,7 +74,7 @@ subprojects {
             archiveFileName.set("${project.name}-shadow.jar")
             exclude("META-INF/**")
             doFirst {
-                manifest{
+                manifest {
                     attributes "Implementation-Ttile": project.name
                     attributes "Implementation-Version": findProperty("version").toString()
                     attributes "Specification-Version": findProperty("version").toString()
@@ -76,9 +84,12 @@ subprojects {
                     attributes "Created-By": "Gradle $gradle.gradleVersion"
                 }
             }
-            if(project.name != "AmongsUsMinecraft-Core") {
-                dependsOn(":AmongsUsMinecraft-Core")
-                def buildDir = project(":AmongsUsMinecraft-Core").buildDir.path
+            //def buildDir = project(":AmongsUsMinecraft-Plugin").buildDir.path
+            //from("$buildDir/classes/kotlin/main") include("**")
+            //from("$buildDir/resources/main") include("**")
+            if (project.name != "AmongsUsMinecraft-Plugin") {
+                dependsOn(":AmongsUsMinecraft-Plugin")
+                def buildDir = project(":AmongsUsMinecraft-Plugin").buildDir.path
                 from("$buildDir/classes/kotlin/main") {
                     include("**")
                 }
@@ -91,7 +102,7 @@ subprojects {
         kotlinSourcesJar {
             archiveFileName.set("${project.name}-kotlinSources.jar")
             doFirst {
-                manifest{
+                manifest {
                     attributes "Implementation-Ttile": project.name
                     attributes "Implementation-Version": findProperty("version").toString()
                     attributes "Specification-Version": findProperty("version").toString()
@@ -112,6 +123,3 @@ subprojects {
         }
     }
 }
-
-
-

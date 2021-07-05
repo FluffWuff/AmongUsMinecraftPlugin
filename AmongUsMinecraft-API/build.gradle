@@ -1,4 +1,0 @@
-dependencies {
-    compileOnly(project(":AmongsUsMinecraft-Core").toString())
-    compileOnly(findProperty("coords_spigot").toString())
-}
