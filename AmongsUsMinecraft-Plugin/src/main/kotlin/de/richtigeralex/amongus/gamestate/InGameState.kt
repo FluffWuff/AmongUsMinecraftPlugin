@@ -1,6 +1,5 @@
 package de.richtigeralex.amongus.gamestate
 
-import de.richtigeralex.amongus.AmongUs
 import de.richtigeralex.amongus.player.AmongUsPlayerManager
 import org.bukkit.Bukkit
 

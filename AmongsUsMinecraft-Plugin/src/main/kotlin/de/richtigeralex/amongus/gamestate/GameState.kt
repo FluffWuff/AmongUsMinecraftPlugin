@@ -1,7 +1,5 @@
 package de.richtigeralex.amongus.gamestate
 
-import de.richtigeralex.amongus.AmongUs
-import de.richtigeralex.amongus.player.AmongUsPlayerManager
 import org.bukkit.plugin.java.JavaPlugin
 
 abstract class GameState {
@@ -19,7 +17,7 @@ abstract class GameState {
 
 class GameStateManager(val plugin: JavaPlugin) {
 
-    val gameStates: Array<GameState> = arrayOf()
+    val gameStates: Array<GameState?> = arrayOfNulls(2)
     var currentGameState: GameState? = null
 
     fun setGameState(gameStateID: Int) {
