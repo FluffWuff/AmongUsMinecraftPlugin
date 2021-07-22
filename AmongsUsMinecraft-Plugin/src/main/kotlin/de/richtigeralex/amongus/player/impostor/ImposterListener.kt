@@ -22,26 +22,15 @@ class ImposterListener(val amongUsPlayerManager: AmongUsPlayerManager) : Listene
 
     @EventHandler
     fun handleCrewMateKill(event: EntityDamageByEntityEvent) {
-        if(event.cause != EntityDamageEvent.DamageCause.ENTITY_ATTACK) {
-            event.isCancelled = true
-            return
-        }
-        if(event.entity !is Player) {
-            event.isCancelled = true
-            return
-        }
-        if(event.damager !is Player) {
-            event.isCancelled = true
-            return
-        }
+        event.isCancelled = true
+        if(event.cause != EntityDamageEvent.DamageCause.ENTITY_ATTACK) return
+        if(event.entity !is Player) return
+        if(event.damager !is Player) return
 
         val entity: Player = event.entity as Player
         val damager: Player = event.damager as Player
 
-        if(damager.inventory.itemInMainHand != weaponItemStack) {
-            event.isCancelled = true
-            return
-        }
+        if(damager.inventory.itemInMainHand != weaponItemStack) return
 
         val damagerImposterPlayer: ImposterPlayer = amongUsPlayerManager.inGamePlayers.find { it.player == damager } as ImposterPlayer
         val crewMatePlayer: CrewMatePlayer = amongUsPlayerManager.inGamePlayers.find { it.player == entity } as CrewMatePlayer
