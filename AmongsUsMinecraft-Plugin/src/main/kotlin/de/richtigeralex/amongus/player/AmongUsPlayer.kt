@@ -20,7 +20,7 @@ interface AmongUsPlayer {
     }
 }
 
-data class LobbyPlayer(var color: Color, val player: Player, var isReady: Boolean = false)
+data class LobbyPlayer(var color: Color, val player: Player, var isReady: Boolean = false, var hasVoted: Boolean = false)
 
 data class CrewMatePlayer(override var color: Color, override val player: Player, override var isDead: Boolean = false) : AmongUsPlayer {
 

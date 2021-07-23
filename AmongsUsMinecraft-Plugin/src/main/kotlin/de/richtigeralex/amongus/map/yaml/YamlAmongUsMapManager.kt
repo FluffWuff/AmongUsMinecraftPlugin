@@ -11,6 +11,7 @@ import java.io.File
 class YamlAmongUsMapManager : IAmongUsMapManager {
 
     override val loadedMaps: MutableList<AmongUsMap> = mutableListOf()
+    override val selectedMap: AmongUsMap? = null
     private val instance = AmongUs.instance
 
     override fun loadMaps() {

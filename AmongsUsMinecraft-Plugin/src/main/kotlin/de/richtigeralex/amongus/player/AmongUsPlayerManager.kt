@@ -7,6 +7,7 @@ import de.richtigeralex.amongus.gamestate.GameStateManager
 import de.richtigeralex.amongus.gamestate.InGameState
 import de.richtigeralex.amongus.gamestate.LobbyState
 import de.richtigeralex.amongus.listener.PlayerHandleListener
+import de.richtigeralex.amongus.map.IAmongUsMapManager
 import de.richtigeralex.amongus.player.color.ColorManager
 import de.richtigeralex.amongus.player.impostor.ImposterListener
 import org.bukkit.Bukkit
@@ -17,16 +18,6 @@ class AmongUsPlayerManager(val gameStateManager: GameStateManager) {
     val lobbyPlayers: MutableList<LobbyPlayer> = mutableListOf()
     val inGamePlayers: MutableList<AmongUsPlayer> = mutableListOf()
     val spectators: MutableList<Player> = mutableListOf()
-
-    init {
-        gameStateManager.gameStates[GameState.LOBBY_STATE] = LobbyState()
-        gameStateManager.gameStates[GameState.INGAME_STATE] = InGameState(this)
-
-        Bukkit.getPluginManager().registerEvents(ImposterListener(this), AmongUs.instance)
-        Bukkit.getPluginManager().registerEvents(PlayerHandleListener(gameStateManager, this), AmongUs.instance)
-
-        AmongUs.instance.getCommand("r")!!.setExecutor(LobbyReadyCommand(this))
-    }
 
     fun convertToInGameState() {
         if (lobbyPlayers.size <= 7) {

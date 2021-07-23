@@ -10,6 +10,7 @@ import org.bukkit.entity.Player
 class JsonAmongUsMapManager : IAmongUsMapManager {
 
     override val loadedMaps: MutableList<AmongUsMap> = mutableListOf()
+    override val selectedMap: AmongUsMap? = null
 
     override fun loadMaps() {
         TODO("Not yet implemented")

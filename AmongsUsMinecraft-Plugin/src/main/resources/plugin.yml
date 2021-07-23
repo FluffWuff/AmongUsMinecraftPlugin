@@ -1,7 +1,7 @@
 main: de.richtigeralex.amongus.AmongUs
 name: "AmongUs"
 author: "RichtigerAlex"
-version: "0.0.3-SNAPSHOT"
+version: "0.0.4-SNAPSHOT"
 api-version: "1.17"
 
 commands:
@@ -10,3 +10,5 @@ commands:
     aliases: ready
   createMap:
     description: Create a new map
+  voteMap:
+    description: Vote for a Map in Lobby
