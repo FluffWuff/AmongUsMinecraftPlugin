@@ -1,8 +1,10 @@
 package de.richtigeralex.amongus.player
 
 import de.richtigeralex.amongus.api.events.ImposterKillEvent
+import de.richtigeralex.amongus.util.itembuilder.ItemBuilder
 import org.bukkit.Bukkit
 import org.bukkit.Color
+import org.bukkit.Material
 import org.bukkit.entity.Player
 
 interface AmongUsPlayer {

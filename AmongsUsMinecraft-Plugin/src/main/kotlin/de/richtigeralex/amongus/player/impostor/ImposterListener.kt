@@ -3,6 +3,7 @@ package de.richtigeralex.amongus.player.impostor
 import de.richtigeralex.amongus.api.events.ImposterKillEvent
 import de.richtigeralex.amongus.api.events.ImposterWinningEvent
 import de.richtigeralex.amongus.gamestate.GameState
+import de.richtigeralex.amongus.gamestate.InGameState
 import de.richtigeralex.amongus.player.AmongUsPlayerManager
 import de.richtigeralex.amongus.player.CrewMatePlayer
 import de.richtigeralex.amongus.player.ImposterPlayer
@@ -45,6 +46,7 @@ class ImposterListener(val amongUsPlayerManager: AmongUsPlayerManager) : Listene
         if(amongUsPlayerManager.inGamePlayers.filterIsInstance<ImposterPlayer>().filter { !it.isDead }.size == amongUsPlayerManager.inGamePlayers.filterIsInstance<CrewMatePlayer>().filter { !it.isDead }.size) {
             // Imposter wins the game
             Bukkit.getPluginManager().callEvent(ImposterWinningEvent())
+            amongUsPlayerManager.gameStateManager.gameStates.filterIsInstance(InGameState::class.java).first().sequenceType = InGameState.AmongUsSequenceType.IMPOSTER_WIN
             amongUsPlayerManager.gameStateManager.setGameState(GameState.LOBBY_STATE)
         }
     }

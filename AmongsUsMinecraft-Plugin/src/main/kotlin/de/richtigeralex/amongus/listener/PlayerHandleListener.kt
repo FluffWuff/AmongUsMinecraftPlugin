@@ -51,5 +51,4 @@ class PlayerHandleListener(val gameStateManager: GameStateManager, val playerMan
         }
         event.player.inventory.clear()
     }
-
 }

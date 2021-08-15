@@ -11,9 +11,7 @@ class LobbyState(private val voteMapManager: VoteMapManager) : GameState() {
     }
 
     override fun stop() {
-        voteMapManager.scheduleMessageRepeater(false)
-
-        UnregisterCommandUtil.unRegisterCommand(AmongUs.instance.getCommand("r")!!)
-        UnregisterCommandUtil.unRegisterCommand(AmongUs.instance.getCommand("voteMap")!!)
+        //UnregisterCommandUtil.unRegisterCommand(AmongUs.instance.getCommand("r")!!)
+        //UnregisterCommandUtil.unRegisterCommand(AmongUs.instance.getCommand("voteMap")!!)
     }
 }

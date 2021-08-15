@@ -8,7 +8,7 @@ import java.lang.reflect.Field
 
 object UnregisterCommandUtil {
 
-    private fun getPrivateField(any: Any, field: String): Any {
+    fun getPrivateField(any: Any, field: String): Any {
         val clazz: Class<*> = any::class.java
         val objectField: Field = clazz.getDeclaredField(field)
         objectField.isAccessible = false
@@ -20,7 +20,7 @@ object UnregisterCommandUtil {
         val knownCommands: MutableMap<String, Command> = getPrivateField(commandMap, "knownCommands") as MutableMap<String, Command>
         knownCommands.remove(command.name)
         command.aliases.forEach {
-            if(knownCommands.containsKey(it) && knownCommands[it].toString().contains(AmongUs.instance.name))
+            if (knownCommands.containsKey(it) && knownCommands[it].toString().contains(AmongUs.instance.name))
                 knownCommands.remove(it)
         }
     }

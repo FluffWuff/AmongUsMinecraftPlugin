@@ -58,7 +58,7 @@ class AmongUs : JavaPlugin() {
         Bukkit.getPluginManager().registerEvents(PlayerHandleListener(gameStateManager, amongUsPlayerManager, voteMapManager), this)
 
         this.getCommand("createMap")!!.setExecutor(CreateNewMapCommand(amongUsMapManager))
-        this.getCommand("r")!!.setExecutor(LobbyReadyCommand(amongUsPlayerManager))
+        this.getCommand("r")!!.setExecutor(LobbyReadyCommand(amongUsPlayerManager, voteMapManager))
         val voteMapCommand = VoteMapCommand(voteMapManager, amongUsPlayerManager)
         this.getCommand("voteMap")!!.setExecutor(voteMapCommand)
         this.getCommand("voteMap")!!.tabCompleter = voteMapCommand

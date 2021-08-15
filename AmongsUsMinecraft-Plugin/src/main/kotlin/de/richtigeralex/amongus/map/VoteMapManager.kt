@@ -38,6 +38,8 @@ class VoteMapManager(val amongUsMapManager: IAmongUsMapManager) {
                 }
             })
         } else {
+            amongUsMapManager.selectedMap = voted.maxByOrNull { it.value.size }!!.key
+            Bukkit.broadcastMessage("§e${amongUsMapManager.selectedMap!!.name} §7hat §agewonnen!")
             timer!!.cancel()
         }
     }

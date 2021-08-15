@@ -5,7 +5,7 @@ import org.bukkit.entity.Player
 interface IAmongUsMapManager {
 
     val loadedMaps: MutableList<AmongUsMap>
-    val selectedMap: AmongUsMap?
+    var selectedMap: AmongUsMap?
 
     fun loadMaps()
 
