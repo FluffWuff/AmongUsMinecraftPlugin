@@ -46,7 +46,11 @@ class LobbyReadyCommand(private val amongUsPlayerManager: AmongUsPlayerManager, 
                     )
                 )
             }
-
+            
+            /**
+                whole thing has to reworked
+                very stupid way coded
+            */
             Bukkit.getScheduler().scheduleSyncRepeatingTask(AmongUs.instance, Runnable {
                 Bukkit.broadcastMessage("§e$counter")
                 counter--
