@@ -1,6 +1,5 @@
-Plugin is not finished yet so please be aware that it doesn't function
-Many Locations are currently hardcoded for testing and will be later on saved in json/yml files
-
+Plugin is not finished yet so please be aware that it doesn't function.
+Many Locations are currently hardcoded for testing and will be later on saved in json/yml files.
 
 # AmongUs in Minecraft
 
