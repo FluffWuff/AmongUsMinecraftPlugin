@@ -1,3 +1,7 @@
+Plugin is not finished yet so please be aware that it doesn't function
+Many Locations are currently hardcoded for testing and will be later on saved in json/yml files
+
+
 # AmongUs in Minecraft
 
 Among Us in Minecraft is plugin based on the 2D game Among Us, but this time in 3D instead of 2D.
