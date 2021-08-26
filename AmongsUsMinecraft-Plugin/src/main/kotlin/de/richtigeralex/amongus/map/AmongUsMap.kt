@@ -11,7 +11,7 @@ data class AmongUsMap(
     var startSequenceLocation: Location = Location(Bukkit.getWorld("world"), 0.5, 57.0, 10.5, 0.0F, 0.0F),
     val spawnLocations: MutableList<Location> = mutableListOf(),
     var emergencyButtonLocation: Location = Location(null, 0.0, 0.0, 0.0),
-    val taskLocations: MutableList<Location> = mutableListOf(), // TODO change to a GeneralTask as extra class
+    val taskLocationsPath: String, // Path for the file of the saved task locations
     val sabotageTaskLocations: MutableList<Location> = mutableListOf() // TODO change to a SabotageTask as extra class
 ) : ConfigurationSerializable {
 
@@ -21,7 +21,7 @@ data class AmongUsMap(
         serializedMap["startSequenceLocation"] = this.startSequenceLocation.serialize()
         serializedMap["spawnLocations"] = this.spawnLocations.stream().map(Location::serialize).collect(Collectors.toList())
         serializedMap["emergencyButtonLocation"] = this.emergencyButtonLocation.serialize()
-        serializedMap["taskLocations"] = this.taskLocations.stream().map(Location::serialize).collect(Collectors.toList())
+        serializedMap["taskLocationsPath"] = this.taskLocationsPath
         serializedMap["sabotageTaskLocations"] = this.sabotageTaskLocations.stream().map(Location::serialize).collect(Collectors.toList())
         return serializedMap
     }
@@ -35,7 +35,7 @@ data class AmongUsMap(
                 startSequenceLocation = Location.deserialize(startSequenceMemorySection.getValues(true)),
                 spawnLocations = filterLocationLists(map, "spawnLocations"),
                 emergencyButtonLocation = Location.deserialize(emergencyButtonMemorySection.getValues(true)),
-                taskLocations = filterLocationLists(map, "taskLocations"),
+                taskLocationsPath = map["taskLocationsPath"] as String,
                 sabotageTaskLocations = filterLocationLists(map, "sabotageTaskLocations")
             )
         }

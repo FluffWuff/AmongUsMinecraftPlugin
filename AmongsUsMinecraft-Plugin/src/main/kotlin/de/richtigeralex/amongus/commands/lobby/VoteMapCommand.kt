@@ -20,7 +20,7 @@ class VoteMapCommand(val voteMapManager: VoteMapManager, val amongUsPlayerManage
         return true
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, label: String, args: Array<out String>): MutableList<String>? {
+    override fun onTabComplete(sender: CommandSender, command: Command, label: String, args: Array<out String>): MutableList<String> {
         val completions: MutableList<String> = mutableListOf()
         val completeExamples: MutableList<String> = mutableListOf()
         voteMapManager.amongUsMapManager.loadedMaps.forEach { completeExamples.add(it.name) }

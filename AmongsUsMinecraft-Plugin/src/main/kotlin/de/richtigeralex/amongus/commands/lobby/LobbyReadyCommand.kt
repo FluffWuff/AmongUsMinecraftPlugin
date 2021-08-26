@@ -28,13 +28,15 @@ class LobbyReadyCommand(private val amongUsPlayerManager: AmongUsPlayerManager, 
         val lobbyPlayer: LobbyPlayer = amongUsPlayerManager.lobbyPlayers.find { it.player == sender }!!
         lobbyPlayer.apply { isReady = !isReady }
 
-        if (lobbyPlayer.isReady) Bukkit.broadcastMessage("§6${sender.name} §7ist nun ready")
-        else Bukkit.broadcastMessage("§c${sender.name} $7ist nicht mehr ready")
+        if (lobbyPlayer.isReady) Bukkit.broadcastMessage("§6${sender.name} §7is now ready")
+        else Bukkit.broadcastMessage("§c${sender.name} $7isn't ready anymore")
 
-        Bukkit.broadcastMessage("§e${amongUsPlayerManager.lobbyPlayers.filter { it.isReady }.size}§7/§6${amongUsPlayerManager.lobbyPlayers.size} §7sind ready")
+        Bukkit.broadcastMessage("§e${amongUsPlayerManager.lobbyPlayers.filter { it.isReady }.size}§7/§6${amongUsPlayerManager.lobbyPlayers.size} §7are ready")
         if (amongUsPlayerManager.lobbyPlayers.filter { it.isReady }.size == amongUsPlayerManager.lobbyPlayers.size) { // all players are ready
-            Bukkit.broadcastMessage("§7Alle Spieler sind nun ready. Das Spiel startet")
+            Bukkit.broadcastMessage("§7All players are ready. Game starting")
+
             voteMapManager.scheduleMessageRepeater(false)
+
             var counter = 10
 
             amongUsPlayerManager.lobbyPlayers.forEach {
@@ -51,8 +53,8 @@ class LobbyReadyCommand(private val amongUsPlayerManager: AmongUsPlayerManager, 
                 Bukkit.broadcastMessage("§e$counter")
                 counter--
                 if (counter == 0) {
-                    Bukkit.broadcastMessage("§aDas Spielt startet jetzt!")
-                    Bukkit.broadcastMessage("§aViel Spaß!")
+                    Bukkit.broadcastMessage("§aGame starting!")
+                    Bukkit.broadcastMessage("§aHave fun!")
                     amongUsPlayerManager.convertToInGameState() // start of game
                     amongUsPlayerManager.inGamePlayers.forEach {
                         it.player.sendMessage((it is ImposterPlayer).toString())

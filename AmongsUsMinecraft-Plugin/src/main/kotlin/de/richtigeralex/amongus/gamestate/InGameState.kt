@@ -4,7 +4,9 @@ import de.richtigeralex.amongus.AmongUs
 import de.richtigeralex.amongus.map.IAmongUsMapManager
 import de.richtigeralex.amongus.player.AmongUsPlayer
 import de.richtigeralex.amongus.player.AmongUsPlayerManager
+import de.richtigeralex.amongus.player.CrewMatePlayer
 import de.richtigeralex.amongus.player.ImposterPlayer
+import de.richtigeralex.amongus.task.AmongUsTaskManager
 import de.richtigeralex.amongus.util.extension.toColorPrefix
 import de.richtigeralex.amongus.util.itembuilder.ItemBuilder
 import kotlinx.coroutines.*
@@ -27,9 +29,10 @@ class InGameState(val amongUsPlayerManager: AmongUsPlayerManager, val amongUsMap
             }
         }
 
-        showSequence()
+        //showSequence()
+        //Thread.sleep(4_000L)
 
-        Thread.sleep(4_000L)
+        val amongUsTaskManager = AmongUsTaskManager(amongUsMapManager.selectedMap!!, amongUsPlayerManager.inGamePlayers.filterIsInstance<CrewMatePlayer>().toMutableList())
 
         amongUsPlayerManager.inGamePlayers.forEach { it.player.inventory.heldItemSlot = 4 }
         amongUsPlayerManager.inGamePlayers.filterIsInstance(ImposterPlayer::class.java).forEach {

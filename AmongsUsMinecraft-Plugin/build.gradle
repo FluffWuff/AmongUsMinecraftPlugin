@@ -1,4 +1,4 @@
 dependencies {
     compileOnly(findProperty("coords_spigot").toString())
-    //compileOnly(findProperty("coords_protocollib").toString())
+    compileOnly(findProperty("coords_holographicdisplays").toString())
 }
