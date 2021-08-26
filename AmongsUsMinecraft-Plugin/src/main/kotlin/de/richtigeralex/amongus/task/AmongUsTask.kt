@@ -1,3 +1,17 @@
+/*
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program. If not, see <https://www.gnu.org/licenses/>.
+ */
 package de.richtigeralex.amongus.task
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram
@@ -15,23 +29,6 @@ import java.io.File
 class AmongUsTaskManager(amongUsMap: AmongUsMap, crewMatePlayers: MutableList<CrewMatePlayer>) {
 
     val pendingTasks = mutableMapOf<CrewMatePlayer, MutableList<ClassicTask>>()
-    /* TODO
-        ==> edit: changed it in saving the path for the yml of the locations
-        implement Tasks
-        write command for setting the locations of the tasks and saving it
-
-
-           saving task locations:
-           write private object
-           MutableMap<String, MutableList<Location>>
-           fun serializeTask(taskName: String, locations: MutableList<Locaiton>)
-           fun deserialize(taskName: String): MutableMist<Location>
-
-        done:
-        initializeTasks function
-        saving the path for the locations
-        assign tasks to player in map
-    */
 
     init {
         initializeTasks(amongUsMap, crewMatePlayers)
