@@ -1,16 +1,21 @@
+/*
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program. If not, see <https://www.gnu.org/licenses/>.
+ */
 package de.richtigeralex.amongus.player
 
-import de.richtigeralex.amongus.AmongUs
-import de.richtigeralex.amongus.commands.lobby.LobbyReadyCommand
-import de.richtigeralex.amongus.gamestate.GameState
 import de.richtigeralex.amongus.gamestate.GameStateManager
-import de.richtigeralex.amongus.gamestate.InGameState
-import de.richtigeralex.amongus.gamestate.LobbyState
-import de.richtigeralex.amongus.listener.PlayerHandleListener
-import de.richtigeralex.amongus.map.IAmongUsMapManager
 import de.richtigeralex.amongus.player.color.ColorManager
-import de.richtigeralex.amongus.player.impostor.ImposterListener
-import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
 class AmongUsPlayerManager(val gameStateManager: GameStateManager) {

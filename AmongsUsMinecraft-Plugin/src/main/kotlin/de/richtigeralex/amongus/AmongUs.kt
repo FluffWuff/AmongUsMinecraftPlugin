@@ -1,6 +1,21 @@
+/*
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program. If not, see <https://www.gnu.org/licenses/>.
+ */
 package de.richtigeralex.amongus
 
 import de.richtigeralex.amongus.commands.general.CreateNewMapCommand
+import de.richtigeralex.amongus.commands.general.TaskLocationCommand
 import de.richtigeralex.amongus.commands.lobby.LobbyReadyCommand
 import de.richtigeralex.amongus.commands.lobby.VoteMapCommand
 import de.richtigeralex.amongus.gamestate.GameState
@@ -15,6 +30,7 @@ import de.richtigeralex.amongus.map.VoteMapManager
 import de.richtigeralex.amongus.map.yaml.YamlAmongUsMapManager
 import de.richtigeralex.amongus.player.AmongUsPlayerManager
 import de.richtigeralex.amongus.player.impostor.ImposterListener
+import de.richtigeralex.amongus.task.AmongUsTaskManager
 import de.richtigeralex.amongus.util.itembuilder.ItemBuilderManager
 import org.bukkit.Bukkit
 import org.bukkit.configuration.serialization.ConfigurationSerialization
@@ -62,6 +78,7 @@ class AmongUs : JavaPlugin() {
         val voteMapCommand = VoteMapCommand(voteMapManager, amongUsPlayerManager)
         this.getCommand("voteMap")!!.setExecutor(voteMapCommand)
         this.getCommand("voteMap")!!.tabCompleter = voteMapCommand
+        this.getCommand("taskLocation")!!.setExecutor(TaskLocationCommand(amongUsMapManager))
     }
 
     override fun onDisable() {

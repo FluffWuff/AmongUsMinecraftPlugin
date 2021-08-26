@@ -1,0 +1,5 @@
+AmongUs in Minecraft contains code from the following third party projects, listed with their license information.
+
+[Holographic Displays]
+License: GNU General Public License v3.0
+URL: https://github.com/filoghost/HolographicDisplays

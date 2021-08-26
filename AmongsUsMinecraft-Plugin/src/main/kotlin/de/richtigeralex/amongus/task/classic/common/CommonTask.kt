@@ -12,21 +12,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-package de.richtigeralex.amongus.map
+package de.richtigeralex.amongus.task.classic.common
 
-import org.bukkit.entity.Player
+import de.richtigeralex.amongus.task.classic.ClassicTask
 
-interface IAmongUsMapManager {
-
-    val loadedMaps: MutableList<AmongUsMap>
-    var selectedMap: AmongUsMap?
-
-    fun loadMaps()
-
-    fun saveMap(amongUsMap: AmongUsMap)
-
-    fun saveAllMaps() = loadedMaps.forEach{ saveMap(it) }
-
-    fun createMap(mapName: String, creator: Player)
-
-}
+sealed interface CommonTask : ClassicTask

@@ -1,10 +1,26 @@
+/*
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program. If not, see <https://www.gnu.org/licenses/>.
+ */
 package de.richtigeralex.amongus.gamestate
 
 import de.richtigeralex.amongus.AmongUs
 import de.richtigeralex.amongus.map.IAmongUsMapManager
 import de.richtigeralex.amongus.player.AmongUsPlayer
 import de.richtigeralex.amongus.player.AmongUsPlayerManager
+import de.richtigeralex.amongus.player.CrewMatePlayer
 import de.richtigeralex.amongus.player.ImposterPlayer
+import de.richtigeralex.amongus.task.AmongUsTaskManager
 import de.richtigeralex.amongus.util.extension.toColorPrefix
 import de.richtigeralex.amongus.util.itembuilder.ItemBuilder
 import kotlinx.coroutines.*
@@ -27,9 +43,10 @@ class InGameState(val amongUsPlayerManager: AmongUsPlayerManager, val amongUsMap
             }
         }
 
-        showSequence()
+        //showSequence()
+        //Thread.sleep(4_000L)
 
-        Thread.sleep(4_000L)
+        val amongUsTaskManager = AmongUsTaskManager(amongUsMapManager.selectedMap!!, amongUsPlayerManager.inGamePlayers.filterIsInstance<CrewMatePlayer>().toMutableList())
 
         amongUsPlayerManager.inGamePlayers.forEach { it.player.inventory.heldItemSlot = 4 }
         amongUsPlayerManager.inGamePlayers.filterIsInstance(ImposterPlayer::class.java).forEach {
