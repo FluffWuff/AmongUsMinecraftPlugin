@@ -25,12 +25,12 @@ class VoteMapManager(val amongUsMapManager: IAmongUsMapManager) {
 
     fun voteMap(lobbyPlayer: LobbyPlayer, mapName: String) {
         if(lobbyPlayer.hasVoted) {
-            lobbyPlayer.player.sendMessage("§cDu hast bereits gevotet!")
+            lobbyPlayer.player.sendMessage("§cYou already voted!")
             return
         }
         val votedMap: AmongUsMap? = amongUsMapManager.loadedMaps.find { it.name == mapName }
         if(votedMap == null) {
-            lobbyPlayer.player.sendMessage("§cDie Map §e$mapName §cexistiert nicht!")
+            lobbyPlayer.player.sendMessage("§cThe map §e$mapName §cdoesn't exist!")
             return
         }
 
@@ -38,21 +38,21 @@ class VoteMapManager(val amongUsMapManager: IAmongUsMapManager) {
             voted[votedMap]!!.add(lobbyPlayer)
         else
             voted[votedMap] = mutableListOf(lobbyPlayer)
-        Bukkit.broadcastMessage("§e$mapName §7wurde von §6${lobbyPlayer.player.name} §7gevotet")
+        Bukkit.broadcastMessage("§6${lobbyPlayer.player.name} §7votes the map §e$mapName")
         lobbyPlayer.hasVoted = true
     }
 
     fun scheduleMessageRepeater(shouldStart: Boolean) {
         if(shouldStart) {
             timer = kotlin.concurrent.timer(period = 60_000L, initialDelay = 1_000L, action = {
-                Bukkit.broadcastMessage("§7Momentaner Votestand:")
+                Bukkit.broadcastMessage("§7Current Voting:")
                 voted.forEach { (t, u) ->
                     Bukkit.broadcastMessage("§e${t.name}§7: §6${u.size}")
                 }
             })
         } else {
             amongUsMapManager.selectedMap = voted.maxByOrNull { it.value.size }!!.key
-            Bukkit.broadcastMessage("§e${amongUsMapManager.selectedMap!!.name} §7hat §agewonnen!")
+            Bukkit.broadcastMessage("§e${amongUsMapManager.selectedMap!!.name} §7wins!")
             timer!!.cancel()
         }
     }

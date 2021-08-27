@@ -22,6 +22,7 @@ import de.richtigeralex.amongus.player.AmongUsPlayerManager
 import de.richtigeralex.amongus.player.CrewMatePlayer
 import de.richtigeralex.amongus.player.ImposterPlayer
 import de.richtigeralex.amongus.util.itembuilder.ItemBuilder
+import de.richtigeralex.amongus.util.itembuilder.ItemBuilderManager
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -30,10 +31,9 @@ import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.inventory.ItemStack
+import org.bukkit.persistence.PersistentDataType
 
 class ImposterListener(val amongUsPlayerManager: AmongUsPlayerManager) : Listener {
-
-    private val weaponItemStack: ItemStack = ItemBuilder(material = Material.IRON_SWORD, displayName = "§cKill").build()
 
     @EventHandler
     fun handleCrewMateKill(event: EntityDamageByEntityEvent) {
@@ -45,11 +45,11 @@ class ImposterListener(val amongUsPlayerManager: AmongUsPlayerManager) : Listene
         val entity: Player = event.entity as Player
         val damager: Player = event.damager as Player
 
-        if(damager.inventory.itemInMainHand != weaponItemStack) return
+        if(!ItemBuilderManager.itemStacks.containsKey(damager.inventory.itemInMainHand.itemMeta!!.persistentDataContainer.get(ItemBuilderManager.namespacedKey, PersistentDataType.STRING))) return
 
         val damagerImposterPlayer: ImposterPlayer = amongUsPlayerManager.inGamePlayers.find { it.player == damager } as ImposterPlayer
         val crewMatePlayer: CrewMatePlayer = amongUsPlayerManager.inGamePlayers.find { it.player == entity } as CrewMatePlayer
-        if(damagerImposterPlayer.nextAvailableKill >= System.currentTimeMillis()) {
+        if(damagerImposterPlayer.nextAvailableKill <= System.currentTimeMillis()) {
             damagerImposterPlayer.killCrewMate(crewMatePlayer)
             damagerImposterPlayer.nextAvailableKill = System.currentTimeMillis() + 30000L
         } else damager.sendMessage("§7Du musst insgesamt noch §c${(damagerImposterPlayer.nextAvailableKill - System.currentTimeMillis()) / 1000}s §7warten, um jemanden töten zu dürfen.")

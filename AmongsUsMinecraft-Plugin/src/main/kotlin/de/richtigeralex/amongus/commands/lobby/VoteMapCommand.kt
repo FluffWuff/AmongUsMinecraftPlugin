@@ -37,7 +37,7 @@ class VoteMapCommand(val voteMapManager: VoteMapManager, val amongUsPlayerManage
     override fun onTabComplete(sender: CommandSender, command: Command, label: String, args: Array<out String>): MutableList<String> {
         val completions: MutableList<String> = mutableListOf()
         val completeExamples: MutableList<String> = mutableListOf()
-        voteMapManager.amongUsMapManager.loadedMaps.forEach { completeExamples.add(it.name) }
+        voteMapManager.amongUsMapManager.loadedMaps.forEach { completeExamples += it.name }
         StringUtil.copyPartialMatches(args[0], completeExamples, completions)
         completions.sort()
         return completions

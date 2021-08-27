@@ -17,18 +17,37 @@ package de.richtigeralex.amongus.util.inventory
 import de.richtigeralex.amongus.task.classic.ClassicTask
 import de.richtigeralex.amongus.util.itembuilder.ItemBuilderManager
 import org.bukkit.Bukkit
+import org.bukkit.entity.Player
+import org.bukkit.event.EventHandler
+import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
 
+object InventoryBuilderManager {
+
+    val currentInventoriesBuilds: MutableList<InventoryBuilder> = mutableListOf()
+
+    class InventoryBuilderListener : Listener {
+
+        @EventHandler
+        fun handleInventoryClose(event: InventoryCloseEvent) {
+            val inventoryBuilder: InventoryBuilder = currentInventoriesBuilds.find { it.inventory == event.inventory && it.player == event.player } ?: return
+            inventoryBuilder.closeHandler.invoke(event)
+            currentInventoriesBuilds.remove(inventoryBuilder)
+        }
+    }
+
+}
+
 data class InventoryBuilder(
     val name: String,
     val size: Int = 0,
     val items: MutableMap<Int, ItemStack>,
     val inventoryType: InventoryType? = null,
-    val task: ClassicTask,
+    val player: Player,
     var closeHandler: (InventoryCloseEvent) -> Unit = {}
 ) {
 
@@ -39,13 +58,12 @@ data class InventoryBuilder(
             inventory.setItem(k, v)
         }
         closeHandler = {
-            if (it.inventory == inventory && it.player == task.amongUsPlayer.player) {
-                items.values.forEach { itemStack ->
-                    ItemBuilderManager.itemStacks.remove(itemStack.itemMeta!!.persistentDataContainer.get(ItemBuilderManager.namespacedKey, PersistentDataType.STRING)!!)
-                }
-                println("${items.values.size} got removed")
+            items.values.forEach { itemStack ->
+                ItemBuilderManager.itemStacks.remove(itemStack.itemMeta!!.persistentDataContainer.get(ItemBuilderManager.namespacedKey, PersistentDataType.STRING)!!)
             }
+            println("${items.values.size} got removed")
         }
+        InventoryBuilderManager.currentInventoriesBuilds += this
     }
 
 }

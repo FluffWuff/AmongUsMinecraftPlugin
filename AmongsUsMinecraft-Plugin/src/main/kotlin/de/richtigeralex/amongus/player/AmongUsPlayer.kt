@@ -18,6 +18,7 @@ import de.richtigeralex.amongus.api.events.ImposterKillEvent
 import de.richtigeralex.amongus.task.classic.ClassicTask
 import org.bukkit.Bukkit
 import org.bukkit.Color
+import org.bukkit.GameMode
 import org.bukkit.entity.Player
 
 interface AmongUsPlayer {
@@ -43,7 +44,7 @@ data class ImposterPlayer(override var color: Color, override val player: Player
 
     fun killCrewMate(target: CrewMatePlayer) {
         target.isDead = true
-
+        target.player.gameMode = GameMode.SPECTATOR
         Bukkit.getPluginManager().callEvent(ImposterKillEvent(this, target))
     }
 

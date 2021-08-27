@@ -31,6 +31,7 @@ import de.richtigeralex.amongus.map.yaml.YamlAmongUsMapManager
 import de.richtigeralex.amongus.player.AmongUsPlayerManager
 import de.richtigeralex.amongus.player.impostor.ImposterListener
 import de.richtigeralex.amongus.task.AmongUsTaskManager
+import de.richtigeralex.amongus.util.inventory.InventoryBuilderManager
 import de.richtigeralex.amongus.util.itembuilder.ItemBuilderManager
 import org.bukkit.Bukkit
 import org.bukkit.configuration.serialization.ConfigurationSerialization
@@ -72,6 +73,7 @@ class AmongUs : JavaPlugin() {
         Bukkit.getPluginManager().registerEvents(CancelUselessListener(), this)
         Bukkit.getPluginManager().registerEvents(ImposterListener(amongUsPlayerManager), this)
         Bukkit.getPluginManager().registerEvents(PlayerHandleListener(gameStateManager, amongUsPlayerManager, voteMapManager), this)
+        Bukkit.getPluginManager().registerEvents(InventoryBuilderManager.InventoryBuilderListener(), this)
 
         this.getCommand("createMap")!!.setExecutor(CreateNewMapCommand(amongUsMapManager))
         this.getCommand("r")!!.setExecutor(LobbyReadyCommand(amongUsPlayerManager, voteMapManager))

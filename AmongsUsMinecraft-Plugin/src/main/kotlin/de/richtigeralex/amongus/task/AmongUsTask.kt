@@ -62,7 +62,6 @@ class AmongUsTaskManager(amongUsMap: AmongUsMap, crewMatePlayers: MutableList<Cr
             tasks.forEach { crewMatePlayer.player.sendMessage(it.taskName) }
             pendingTasks[crewMatePlayer] = tasks
         }
-        pendingTasks.forEach { println("player: ${it.key.player.name}, tasks: ${it.value}") }
     }
 
     object TaskLocationManager {

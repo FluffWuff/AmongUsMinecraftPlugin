@@ -43,7 +43,7 @@ class LobbyReadyCommand(private val amongUsPlayerManager: AmongUsPlayerManager, 
         lobbyPlayer.apply { isReady = !isReady }
 
         if (lobbyPlayer.isReady) Bukkit.broadcastMessage("§6${sender.name} §7is now ready")
-        else Bukkit.broadcastMessage("§c${sender.name} $7isn't ready anymore")
+        else Bukkit.broadcastMessage("§c${sender.name} §7isn't ready anymore")
 
         Bukkit.broadcastMessage("§e${amongUsPlayerManager.lobbyPlayers.filter { it.isReady }.size}§7/§6${amongUsPlayerManager.lobbyPlayers.size} §7are ready")
         if (amongUsPlayerManager.lobbyPlayers.filter { it.isReady }.size == amongUsPlayerManager.lobbyPlayers.size) { // all players are ready
@@ -54,11 +54,11 @@ class LobbyReadyCommand(private val amongUsPlayerManager: AmongUsPlayerManager, 
             var counter = 10
 
             amongUsPlayerManager.lobbyPlayers.forEach {
-                it.player.inventory.clear()
+                it.player.inventory.setItem(4, null)
                 it.player.addPotionEffects(
                     mutableListOf(
-                        PotionEffect(PotionEffectType.BLINDNESS, 20 * 10, 1, false, false),
-                        PotionEffect(PotionEffectType.SLOW, 20 * 10, 255, false, false)
+                        PotionEffect(PotionEffectType.BLINDNESS, 20 * 13, 1, false, false),
+                        PotionEffect(PotionEffectType.SLOW, 20 * 13, 255, false, false)
                     )
                 )
             }

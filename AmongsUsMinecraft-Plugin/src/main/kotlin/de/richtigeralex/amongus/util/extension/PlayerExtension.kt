@@ -16,6 +16,7 @@ package de.richtigeralex.amongus.util.extension
 
 import de.richtigeralex.amongus.player.LobbyPlayer
 import de.richtigeralex.amongus.player.color.ColorManager
+import de.richtigeralex.amongus.util.inventory.InventoryBuilder
 import de.richtigeralex.amongus.util.itembuilder.ItemBuilder
 import org.bukkit.Bukkit
 import org.bukkit.Color
@@ -37,8 +38,7 @@ fun Player.setUpLobby(lobbyPlayer: LobbyPlayer) {
         val inventory: Inventory = Bukkit.createInventory(null, 9*4, "§5Farbauswahl")
         val inventoryItems = getColorSelectInventoryItems(lobbyPlayer)
 
-        inventoryItems.forEach { inventory.setItem(it.key, it.value) }
-        it.player.openInventory(inventory)
+        it.player.openInventory(InventoryBuilder("§5Farbauswahl", 9*4, inventoryItems, player = it.player).inventory)
     }).build())
     this.updateInventory()
 }

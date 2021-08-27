@@ -49,6 +49,7 @@ data class InspectSampleTask(
      * third is the white glass pane to click
      */
     var anomalyTriple: Triple<Int, Int, Int>? = null
+    var timeMillisForThirdStage: Long? = null
 
     init {
         setupHologram()
@@ -62,10 +63,12 @@ data class InspectSampleTask(
             27, 29, 30, 32, 33, 35,
             37, 40, 43
         ).associateWith { ItemBuilder(Material.GRAY_STAINED_GLASS_PANE).build() }.toMutableMap()
+
         items += intArrayOf(
             46, 49, 52
         ).associateWith {
             ItemBuilder(Material.WHITE_STAINED_GLASS_PANE, clickHandler = { event ->
+                event.isCancelled = true
                 if (currentStage != 3) return@ItemBuilder
                 if (anomalyTriple!!.third != event.slot) {
                     amongUsPlayer.player.playSound(amongUsPlayer.player.location, Sound.ENTITY_ENDERMAN_HURT, 1.5F, 1.0F)
@@ -81,25 +84,26 @@ data class InspectSampleTask(
             }).build()
         }.toMutableMap()
 
+        if(timeMillisForThirdStage != null && timeMillisForThirdStage!! <= System.currentTimeMillis()) currentStage = 3
 
-        when (stages) {
+        when (currentStage) {
             1 -> {
                 items += intArrayOf(
                     19, 22, 25,
                     28, 31, 34,
                 ).associateWith { ItemBuilder(Material.WHITE_STAINED_GLASS_PANE).build() }
                 items[53] = ItemBuilder(Material.RED_STAINED_GLASS_PANE, displayName = "§cActivate me!", clickHandler = { event ->
+                    event.isCancelled = true
                     event.inventory.setItem(event.slot, ItemBuilder(material = Material.GREEN_STAINED_GLASS_PANE, displayName = "§aActivated!").build())
-
+                    currentStage++
+                    timeMillisForThirdStage = System.currentTimeMillis() + 59_000L
                     val pairs = arrayOf(Pair(19, 28), Pair(22, 31), Pair(25, 34))
                     val blueGlassPane = ItemBuilder(Material.BLUE_STAINED_GLASS_PANE, displayName = "§1§krandom").build()
 
                     repeat(3) { // try to change that async if possible
                         amongUsPlayer.player.playSound(amongUsPlayer.player.location, Sound.BLOCK_BREWING_STAND_BREW, 1.5F, 1.0F)
                         event.inventory.setItem(pairs[it].second, blueGlassPane)
-                        Thread.sleep(250L)
                         event.inventory.setItem(pairs[it].first, blueGlassPane)
-                        Thread.sleep(900L)
                     }
                 }).build()
             }
@@ -119,8 +123,7 @@ data class InspectSampleTask(
                 items[anomalyTriple!!.second] = redGlassPane
             }
         }
-        amongUsPlayer.player.openInventory(InventoryBuilder(name = taskName, size = 9 * 6, items = items, task = this).inventory)
-
+        amongUsPlayer.player.openInventory(InventoryBuilder(name = taskName, size = 9 * 6, items = items, player = amongUsPlayer.player).inventory)
     }
 
 }
